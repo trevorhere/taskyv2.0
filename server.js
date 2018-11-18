@@ -14,7 +14,7 @@
 
 
 // const app = express();
-// const port = process.env.PORT || 4000;
+ const port = process.env.PORT || 4000;
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -71,6 +71,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-app.listen(4000, () => {
-  console.log('Listening on port 4000');
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
