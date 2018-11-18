@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Router, hashHistory, Route, IndexRoute } from 'react-router';
 
 const client = new ApolloClient({
@@ -15,9 +15,9 @@ const client = new ApolloClient({
 const Root = () => {
   return (
     <ApolloProvider client={client}>
-      <HashRouter>
+      <BrowserRouter>
         <Route path="/" component={App}></Route>
-      </HashRouter>
+      </BrowserRouter>
     </ApolloProvider>
   );
 };

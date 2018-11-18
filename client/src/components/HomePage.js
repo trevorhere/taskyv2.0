@@ -3,7 +3,8 @@ import {css} from 'react-emotion';
 import background from "../assets/city.jpeg";
 
 const componentStyle={
-  background: "url("+ background +") no-repeat center center fixed",
+  //background: "url("+ background +") no-repeat center center fixed",
+  background: "linear-gradient(rgba(20,20,20, .5), rgba(20,20,20, .5)),url( "+ background + ")",
   height: "93vh",
   backgroundSize: "cover",
   display: "flex",
