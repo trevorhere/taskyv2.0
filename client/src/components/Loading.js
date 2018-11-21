@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { css } from 'react-emotion';
-import { PacmanLoader } from 'react-spinners';
+import { BarLoader } from 'react-spinners';
 
 const override = css`
     display: block;
@@ -25,7 +25,7 @@ class Loading extends Component {
   render(){
       return (
         <div className={componentStyle} >
-        <PacmanLoader
+        <BarLoader
         manLoader
         className={override}
         sizeUnit={"px"}

@@ -175,36 +175,36 @@ class ViewList extends Component{
           <div>
             {console.log(this.sortDuration(pendingTasks))}
             {console.log(this.sortPriority(pendingTasks))}
-             <h4>Pending:</h4>
+             <h4 className="section-title">Pending:</h4>
              <ul className="collection">
                  {this.renderTasks(pendingTasks, refetch)}
              </ul>
-             <hr/>
+             <hr style={{borderColor:"#ED6E72"}}/>
              </div> ) : <div></div>
 
          const renderUnderway = underwayTasks.length ? (
            <div>
-              <h4>Underway:</h4>
+              <h4 className="section-title">Underway:</h4>
               <ul className="collection">
                   {this.renderTasks(underwayTasks, refetch)}
               </ul>
-               <hr/>
+              <hr style={{borderColor:"#ED6E72"}}/>
               </div> ) : <div></div>
 
         const renderComplete = completeTasks.length ? (
           <div>
-             <h4>Complete:</h4>
+             <h4 className="section-title">Complete:</h4>
              <ul className="collection">
                  {this.renderTasks(completeTasks, refetch)}
              </ul>
-             <hr/>
+             <hr style={{borderColor:"#ED6E72"}}/>
              </div> ) : <div></div>
 
 
           return (
             <div className="container">
-            <h3>List: {list.name}</h3>
-            <hr/>
+            <h3 className="section-title">{list.name}</h3>
+            <hr style={{borderColor:"#ED6E72"}}/>
             {renderUnderway}
             {renderPending}
             {renderComplete}

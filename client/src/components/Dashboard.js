@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import query from '../gql/queries/Dashboard';
 import Loading from './Loading';
+import '../styles/App.css';
 
 class Dashboard extends Component {
 
@@ -23,7 +24,7 @@ class Dashboard extends Component {
     return (
       <div className="container">
         <div >
-          <h3>Your Lists: </h3>
+          <h3 className="section-title">Your Lists: </h3>
           <ul className="collection">
             {this.renderList(lists, "list")}
           </ul>
@@ -35,7 +36,7 @@ class Dashboard extends Component {
         </div>
         <div style={{height: "100px"}}/>
         <div >
-          <h3>Your Teams: </h3>
+          <h3 className="section-title">Your Teams: </h3>
           <ul className="collection">
             {this.renderList(teams, "team")}
           </ul>
