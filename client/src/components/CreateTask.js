@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {graphql} from 'react-apollo';
 import { Link } from 'react-router-dom';
 import createTask from '../gql/mutations/CreateTask';
-import ReactRadioButtonGroup from 'react-radio-button-group';
 
 
 const moment = require('moment');
@@ -172,7 +171,7 @@ render(){
         value={this.state.content}
       />
       <label>Status: </label>
-      <  ReactRadioButtonGroup
+      {/* <  ReactRadioButtonGroup
           name="status"
           options={["pending", "underway","complete"]}
           value={this.state.status}
@@ -181,7 +180,7 @@ render(){
               status: checkedValue
             })
           }}
-      />
+      /> */}
       <br/>
 
       <label>Priority:</label>
@@ -193,7 +192,7 @@ render(){
       <label>3: Urgent. </label>
       <label>4: Nuclear !!!. </label>
 
-      <  ReactRadioButtonGroup
+      {/* <  ReactRadioButtonGroup
           name="priority"
           options={["0", "1","2","3","4"]}
           value={this.state.priority.toString()}
@@ -202,7 +201,7 @@ render(){
               priority: Number(checkedValue)
             })
           }}
-      />
+      /> */}
       <br/>
       <label>Duration - Hours:</label>
       <input
@@ -223,7 +222,7 @@ render(){
       />
       <br/>
       <label>Recurring?:</label>
-      <ReactRadioButtonGroup
+      {/* <ReactRadioButtonGroup
           name="recurringText"
           options={["Yes", "No"]}
           value={this.state.recurringText}
@@ -232,7 +231,7 @@ render(){
               recurringText: checkedValue
             })
           }}
-      />
+      /> */}
       <hr/>
       <div style={{color: "black",backgroundColor: "rgba(206, 66, 87, .3)", padding: "20px"}}>
 
@@ -249,7 +248,7 @@ render(){
       }}
         value={this.state.recurringInterval}
       />
-      <ReactRadioButtonGroup
+      {/* <ReactRadioButtonGroup
           name="recurringMultiplier"
           options={["Minute(s)", "Hour(s)", "Day(s)", "Month(s)"]}
           value={this.state.recurringMultiplier}
@@ -260,7 +259,7 @@ render(){
             this.handleRecurringBirth();
             this.handleRecurringDeath();
           }}
-      />
+      /> */}
       <br/>
       <label  style={{color: "black"}}>This task should stop repeating in: </label>
 
@@ -277,7 +276,7 @@ render(){
         }}
         value={this.state.recurringDeathNumber}
       />
-      <ReactRadioButtonGroup
+      {/* <ReactRadioButtonGroup
           name="recurringDeathMultiplier"
           options={["Minute(s)", "Hour(s)", "Day(s)", "Month(s)"]}
           value={this.state.recurringDeathMultiplier}
@@ -288,9 +287,9 @@ render(){
           this.handleRecurringBirth();
           this.handleRecurringDeath();
         }}
-      />
+      /> */}
           <label style={{color: "black", textDecoration: "bold"}}>Are you sure you want to make this task recurring?</label>
-          <ReactRadioButtonGroup
+          {/* <ReactRadioButtonGroup
           name="test"
           options={["Yes", "No"]}
           value={this.state.recurringDoubleCheck}
@@ -313,7 +312,7 @@ render(){
             }
 
           }}
-      />
+      /> */}
       </div>
       <hr/>
       <label>Notes:</label>
