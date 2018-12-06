@@ -98,10 +98,11 @@ const mutation = new GraphQLObjectType({
       type: TeamType,
       args: {
         name: { type: GraphQLString },
+        description: { type: GraphQLString },
         leaderID: { type: GraphQLID }
       },
-      resolve(parentValue, {name, leaderID }){
-        return User.createTeam(name, leaderID)
+      resolve(parentValue, {name, description, leaderID }){
+        return User.createTeam(name,description, leaderID)
       }
     },
     createTask: {
@@ -224,10 +225,11 @@ const mutation = new GraphQLObjectType({
       type: ListType,
       args: {
         name: { type: GraphQLString },
+        description: { type: GraphQLString },
         ownerID: { type: GraphQLID }
       },
-      resolve(parentValue, {ownerID, name}){
-        return User.createList(ownerID, name);
+      resolve(parentValue, {ownerID, name, description}){
+        return User.createList(ownerID, name, description);
       }
     }
   }

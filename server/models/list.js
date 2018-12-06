@@ -8,6 +8,7 @@ const ListSchema = new Schema({
     ref: 'user'
   },
   notes: { type: String },
+  description: { type: String },
   feedback: { type: String },
   leader: {
     type: Schema.Types.ObjectId,

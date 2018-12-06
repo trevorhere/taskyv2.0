@@ -8,10 +8,12 @@ export default gql`
       {
         id
         name
+        description
       }
     teams{
       id
       name
+      description
     }
     }
 }

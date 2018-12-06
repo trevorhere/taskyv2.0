@@ -6,12 +6,33 @@ import changeTaskStatus from '../gql/mutations/ChangeTaskStatus';
 import setRecurringFalse from '../gql/mutations/SetRecurringFalse';
 import duplicateRecurringTask from '../gql/mutations/DuplicateRecurringTask';
 import Loading from './Loading'
+import '../styles/App.css';
+
+
 const moment = require('moment');
+
 
 const style = {
   display: 'flex',
-  alignItems: 'center'
+  flexDirection: "column",
+  alignItems: 'left',
+  paddingTop:"0"
 }
+
+
+
+
+const cardStyle = {
+  backgroundColor: "#2A3335",
+  margin: "10px",
+  padding: "20px"
+  // borderColor: "#60B87C",
+  // boxShadow: "0 0 20px #60B87C",
+  // animation: "glowing 1500ms infinite"
+}
+
+
+
 
 
 class ViewList extends Component{
@@ -23,47 +44,78 @@ class ViewList extends Component{
     }
   }
 
+  setGlow = (status) => {
+    if(status == "underway"){
+      return "glowGreen";
+    } else if( status == "pending"){
+      return "glowYellow";
+    } else {
+       return ""
+     }
+  }
 
   renderTasks(tasks, refetch){
     return ( tasks ?
       tasks.map(({id, content, status, started, finished, priority, durationHours, durationMinutes, recurring }) => {
       return (
-      <li key={id} className="collection-item ">
-        <Link to={`/dashboard/list/${this.props.match.params.listID}/task/${id}`} >{content}</Link>
-        <div style={style} className="right">
-            <span style={{paddingRight: "10px"}}>priority: {priority} | </span>
-            <span style={{paddingRight: "10px"}}>{durationHours}Hr {durationMinutes}Min | </span>
-
-            status: {status}
-            { status == "complete" ? <div></div> :
+        <div className="col s12 m4">
+      <div class="card"  style={cardStyle} className={this.setGlow(status)}>
+      <span className="card-title" style={{fontSize:"24px"}}>
+        {<div style={{marginRight: "20px" }}>
+         <Link to={`/dashboard/list/${this.props.match.params.listID}/task/${id}`} >{content}</Link>
+          <div style={{float:"right"}}>{
+          status == "complete" ? <div></div> :
+          <div>
+            {status == "underway" ?
             <div>
-              {status == "underway" ?
-              <div>
-                <i
-                  className="material-icons"
-                  onClick={() => {this.changeTaskStatus(id, "complete", started, moment().format('MM/DD/YY, HH:mm'), recurring); refetch();}}
-                  style={{paddingLeft:"10px"}}
-                > done</i>
-              </div> :
-              <div>
-                <i
-                  className="material-icons"
-                  onClick={() => {this.changeTaskStatus(id, "underway", moment().format('MM/DD/YY, HH:mm'), finished, recurring); refetch();}}
-                  style={{paddingLeft:"10px"}}
-                 >add</i>
-                <i
-                  className="material-icons"
-                  onClick={() => {this.changeTaskStatus(id, "complete", started, moment().format('MM/DD/YY, HH:mm'), recurring); refetch();}}
-                  style={{paddingLeft:"10px"}}
-                > done</i>
-              </div>
-              }
+              <i
+                className="material-icons"
+                onClick={() => {this.changeTaskStatus(id, "complete", started, moment().format('MM/DD/YY, HH:mm'), recurring); refetch();}}
+                style={{paddingLeft:"10px"}}
+              > done</i>
+            </div> :
+            <div>
+              <i
+                className="material-icons"
+                onClick={() => {this.changeTaskStatus(id, "underway", moment().format('MM/DD/YY, HH:mm'), finished, recurring); refetch();}}
+                style={{paddingLeft:"10px"}}
+               >add</i>
+              <i
+                className="material-icons"
+                onClick={() => {this.changeTaskStatus(id, "complete", started, moment().format('MM/DD/YY, HH:mm'), recurring); refetch();}}
+                style={{paddingLeft:"10px"}}
+              > done</i>
             </div>
-          }
-
-
+            }
+          </div> }
+          </div>
+          </div> }
+      </span>
+      <br></br>
+      <div className="card-content">
+        <div style={style} className="">
+              <span style={{ fontSize: "16px", fontWeight:"bold"}}>
+              Priority:
+              </span> Level {priority}
+              <br/>
+              <span style={{ fontSize: "16px", fontWeight:"bold"}}>
+                Duration:
+              </span>
+              {durationHours}Hr {durationMinutes}Min
+              <br/>
+              <span style={{ fontSize: "16px", fontWeight:"bold"}}>
+                Status:
+              </span>
+            { status}
         </div>
-      </li>
+        <br/>
+        <div className="card-action">
+            <a href={``}>View</a>
+          </div>
+      </div>
+      </div>
+      </div>
+
       )}) : <div> No tasks. </div> )}
 
 
@@ -176,27 +228,27 @@ class ViewList extends Component{
             {console.log(this.sortDuration(pendingTasks))}
             {console.log(this.sortPriority(pendingTasks))}
              <h4 className="section-title">Pending:</h4>
-             <ul className="collection">
+             <div className="row">
                  {this.renderTasks(pendingTasks, refetch)}
-             </ul>
+             </div>
              <hr style={{borderColor:"#ED6E72"}}/>
              </div> ) : <div></div>
 
          const renderUnderway = underwayTasks.length ? (
            <div>
               <h4 className="section-title">Underway:</h4>
-              <ul className="collection">
+              <div className="row">
                   {this.renderTasks(underwayTasks, refetch)}
-              </ul>
+              </div>
               <hr style={{borderColor:"#ED6E72"}}/>
               </div> ) : <div></div>
 
         const renderComplete = completeTasks.length ? (
           <div>
              <h4 className="section-title">Complete:</h4>
-             <ul className="collection">
+              <div className="row">
                  {this.renderTasks(completeTasks, refetch)}
-             </ul>
+               </div>
              <hr style={{borderColor:"#ED6E72"}}/>
              </div> ) : <div></div>
 

@@ -24,12 +24,12 @@ const UserSchema = new Schema({
 }, {usePushEach: true});
 
 
-UserSchema.statics.createTeam = function(name, leaderID){
+UserSchema.statics.createTeam = function(name, description, leaderID){
   const Team = mongoose.model('team');
 
   return this.findById(leaderID)
   .then(leader => {
-    const team = new Team({name, leader});
+    const team = new Team({name, description, leader});
     leader.teams.push(team);
     return Promise.all([team.save(), leader.save()])
       .then(([team, leader]) => team);
@@ -43,12 +43,12 @@ UserSchema.statics.fetchTeams = function(id){
 }
 
 
-UserSchema.statics.createList = function(id, name){
+UserSchema.statics.createList = function(id, name, description){
   const List = mongoose.model('list');
-
   return this.findById(id)
     .then(user => {
-      const list = new List({ name, user })
+      const list = new List({ name, user, description })
+      console.log(list)
       user.lists.push(list)
       return Promise.all([list.save(), user.save()])
         .then(([list, user]) => user);

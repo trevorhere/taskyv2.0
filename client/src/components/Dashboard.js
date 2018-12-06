@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import query from '../gql/queries/Dashboard';
 import Loading from './Loading';
+import {Card, CardTitle, Icon} from 'react-materialize'
+import office from '../assets/office.jpg';
 import '../styles/App.css';
 
 class Dashboard extends Component {
@@ -16,37 +18,78 @@ class Dashboard extends Component {
       );
     });
   }
+
+  renderListCards(items, link){
+    return items.map(({id, name, description}) => {
+      console.log('desc', description)
+      return (
+        <div key={id} className="col s12 m4" >
+        <Card   style={{backgroundColor: "#2A3335"}}  header={
+          <CardTitle reveal waves='light'/>}
+          title={name}
+          reveal={<p>
+
+           {description}
+           <a style={{color:"#ED6E72"}} className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
+            </p>}>
+          <p><a style={{color:"#ED6E72"}} className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
+          </p>
+        </Card>
+        </div>
+
+        // <div key={id} className="col s12 m4">
+        //  <div className="card sticky-action"  style={{backgroundColor: "#2A3335"}} >
+        //   <span className="card-title" style={{padding: "10px"}}>   {name}</span>
+        //   <div className="card-content">
+        //       <p>
+        //         {description}
+        //       </p>
+        //   </div>
+        //   <div className="card-action">
+        //     <a style={{color:"#ED6E72"}} className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
+        //     <a style={{paddingLeft: "0",color:"grey"}} href={`/dashboard/${link}/${id}`}><i class="material-icons right">more_vert</i></a>
+        //   </div>
+        // </div>
+        // </div>
+      )
+    })
+  }
+
   render(){
     if(this.props.data.loading){
       return ( <Loading loading={this.props.data.loading} /> )
     }
     const { teams, lists } = this.props.data.user;
+    console.log(this.props);
     return (
       <div className="container">
         <div >
           <h3 className="section-title">Your Lists: </h3>
-          <ul className="collection">
-            {this.renderList(lists, "list")}
-          </ul>
+          <div className="row" >
+                {this.renderListCards(lists, "list")}
+          </div>
+
           <Link
             to="/dashboard/createlist"
-            className="btn-large red right">
+            className="outline right">
             Create List
           </Link>
         </div>
         <div style={{height: "100px"}}/>
         <div >
           <h3 className="section-title">Your Teams: </h3>
-          <ul className="collection">
-            {this.renderList(teams, "team")}
-          </ul>
+          <div className="row">
+              {this.renderListCards(teams, "team")}
+          </div>
           <br/>
           <br/>
           <Link
             to="/dashboard/createteam"
-            className="btn-flyou are logged inating btn-large red right">
+            className="outline right">
              Create Team
           </Link>
+          <br/>
+          <br/>
         </div>
       </div>
     )

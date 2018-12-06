@@ -10,7 +10,8 @@ class CreateList extends Component {
     super(props)
 
     this.state = {
-      name: ''
+      name: '',
+      description: ''
     }
   }
 
@@ -18,14 +19,17 @@ class CreateList extends Component {
     event.preventDefault();
 
     this.props.mutate({
-      variables: { name: this.state.name, ownerID: this.props.data.user.id },
+      variables: {
+        name: this.state.name,
+        description: this.state.description,
+        ownerID: this.props.data.user.id },
       refetchQueries: [{ query }]
     }).then(() => this.props.history.push('/dashboard'))
   }
 
 render(){
   return(
-    <div className="container">
+    <div style={{color: "#9D9C9D"}}  className="container input">
       <h3>Create New List</h3>
       <form onSubmit={this.onSubmit.bind(this)}>
       <label>List Name:</label>
@@ -34,6 +38,14 @@ render(){
           name: event.target.value
         })}
         value={this.state.title}
+      />
+      <br/>
+      <label>Description:</label>
+      <input
+        onChange={event => this.setState({
+          description: event.target.value
+        })}
+        value={this.state.description}
       />
         <input className="btn-flyou are logged inating btn-large red right" style={{margin: "10px"}} type="submit" value="Submit" />
         <Link to="/dashboard" style={{margin: "10px"}} className="btn-flyou are logged inating btn-large red right" >Cancel</Link>

@@ -11,7 +11,8 @@ class CreateTeam extends Component {
     super(props)
 
     this.state = {
-      name: ''
+      name: '',
+      description:''
     }
   }
 
@@ -19,14 +20,17 @@ class CreateTeam extends Component {
     event.preventDefault();
 
     this.props.mutate({
-      variables: { name: this.state.name, leaderID: this.props.data.user.id },
+      variables: {
+        name: this.state.name,
+        description: this.state.description,
+        leaderID: this.props.data.user.id },
       refetchQueries: [{ query }]
     }).then(() => this.props.history.push('/dashboard'))
   }
 
 render(){
   return(
-    <div className="container">
+    <div style={{color: "#9D9C9D"}} className="container">
       <h3>Create New Team</h3>
       <form onSubmit={this.onSubmit.bind(this)}>
       <label>Team Name:</label>
@@ -35,6 +39,13 @@ render(){
           name: event.target.value
         })}
         value={this.state.title}
+      />
+       <label>Description:</label>
+      <input
+        onChange={event => this.setState({
+          description: event.target.value
+        })}
+        value={this.state.description}
       />
         <input className="btn-large red right" style={{margin: "10px"}} type="submit" value="Submit" />
         <Link to="/dashboard" style={{margin: "10px"}} className="btn-flyou are logged inating btn-large red right" >Cancel</Link>

@@ -16,6 +16,7 @@ const TeamType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString},
+    description: { type: GraphQLString},
     leader: {
       type: require('./user_type'),
       resolve(parentValue){

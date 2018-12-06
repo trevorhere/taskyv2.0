@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const TeamSchema = new Schema({
   name: { type: String },
+  description: { type: String },
   leader: {
     type: Schema.Types.ObjectId,
     ref: 'user'
@@ -31,7 +32,6 @@ TeamSchema.statics.createUser = function(email, password, name, position, teamID
 
             return Promise.all([user.save(), team.save()])
           .then(([user, team]) => user);
-
   })
 }
 

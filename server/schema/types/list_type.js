@@ -20,6 +20,7 @@ const ListType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     notes: { type: GraphQLString },
+    description: { type: GraphQLString },
     feedback: { type: GraphQLString },
     leader: {
       type: require('./user_type'),
