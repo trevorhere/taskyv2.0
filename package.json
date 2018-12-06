@@ -1,6 +1,9 @@
 {
   "name": "example-create-react-app-express",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
