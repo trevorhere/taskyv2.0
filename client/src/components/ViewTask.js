@@ -84,7 +84,7 @@ constructor(props){
               <a
                 to={`/dashboard/list/${this.props.match.params.listID}`}
                 style={{margin: "10px"}}
-                className=" btn-large red right"
+                className="outline right"
                  onClick={() => this.removeTask()}
                 >
                 Remove Task
@@ -92,7 +92,7 @@ constructor(props){
                 <Link
                 to={`/dashboard/list/${this.props.match.params.listID}`}
                 style={{margin: "10px"}}
-                className=" btn-large red right"
+                className="outline right"
                 >Back</Link>
                 </div>
 

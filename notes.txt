@@ -1,0 +1,94 @@
+recuring stuff
+  {/* <label>Recurring?:</label>
+      {/* <ReactRadioButtonGroup
+          name="recurringText"
+          options={["Yes", "No"]}
+          value={this.state.recurringText}
+          onChange={checkedValue => {
+            this.setState({
+              recurringText: checkedValue
+            })
+          }}
+      /> */}
+      <hr/>
+      <div style={{color: "black",backgroundColor: "rgba(206, 66, 87, .3)", padding: "20px"}}>
+
+      <label style={{color: "black"}}>If this task is recurring, consider the following items:</label>
+      <br/>
+      <label  style={{color: "black"}} >This task should repeat every: </label>
+      <input
+        type="Number"
+        onChange={event => {this.setState({
+          recurringInterval: Number(event.target.value),
+        })
+        this.handleRecurringBirth();
+        this.handleRecurringDeath();
+      }}
+        value={this.state.recurringInterval}
+      />
+      {/* <ReactRadioButtonGroup
+          name="recurringMultiplier"
+          options={["Minute(s)", "Hour(s)", "Day(s)", "Month(s)"]}
+          value={this.state.recurringMultiplier}
+          onChange={checkedValue => {
+            this.setState({
+              recurringMultiplier: checkedValue,
+            })
+            this.handleRecurringBirth();
+            this.handleRecurringDeath();
+          }}
+      /> */}
+      <br/>
+      <label  style={{color: "black"}}>This task should stop repeating in: </label>
+
+      <input
+        type="Number"
+        onChange={event => {
+          this.setState({
+            recurringDeathNumber: Number(event.target.value)
+          })
+          this.handleRecurringBirth();
+          this.handleRecurringDeath();
+        }}
+        value={this.state.recurringDeathNumber}
+      />
+      {/* <ReactRadioButtonGroup
+          name="recurringDeathMultiplier"
+          options={["Minute(s)", "Hour(s)", "Day(s)", "Month(s)"]}
+          value={this.state.recurringDeathMultiplier}
+          onChange={checkedValue => {
+          this.setState({
+             recurringDeathMultiplier: checkedValue
+          })
+          this.handleRecurringBirth();
+          this.handleRecurringDeath();
+        }}
+      /> */}
+          <label style={{color: "black", textDecoration: "bold"}}>Are you sure you want to make this task recurring?</label>
+          {/* <ReactRadioButtonGroup
+          name="test"
+          options={["Yes", "No"]}
+          value={this.state.recurringDoubleCheck}
+
+          onChange={checkedValue => {
+            this.handleRecurringBirth();
+            this.handleRecurringDeath();
+            if(this.state.recurringText == "Yes" && checkedValue == "Yes"){
+              this.setState({
+                recurring: true,
+                recurringDoubleCheck: checkedValue
+
+              });
+
+            } else {
+              this.setState({
+                recurring: false,
+                recurringDoubleCheck: checkedValue
+              })
+            }
+
+          }}
+      /> */}
+      </div>
+      <hr/>
+      <label>Notes:</label>

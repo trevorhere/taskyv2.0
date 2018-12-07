@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import {graphql} from 'react-apollo';
 import { Link } from 'react-router-dom';
 import createTask from '../gql/mutations/CreateTask';
-
+import  {Row, Input } from 'react-materialize'
 
 const moment = require('moment');
 let mutation = createTask;
@@ -13,7 +14,7 @@ class CreateTask extends Component {
 
     this.state = {
       content: '',
-      status: "pending",
+      status: "n/a",
       notes: '',
       value: 'select',
       dueDate: 'N/A',
@@ -27,10 +28,10 @@ class CreateTask extends Component {
       recurringMultiplier: "Minute(s)",
       recurringDeathNumber: 0,
       recurringDeathMultiplier: "Minute(s)",
-      priority: 0,
+      priority: '0',
       duration: 'test',
-      durationHours: 0,
-      durationMinutes: 0,
+      durationHours: '',
+      durationMinutes: '',
       kill: 0,
       repeat:0,
       position: 2,
@@ -48,13 +49,13 @@ class CreateTask extends Component {
         listID: this.props.match.params.listID,
         status: this.state.status,
         creatorID: this.props.data.user.id,
-        priority: this.state.priority,
+        priority: Number(this.state.priority),
         dueDate: this.state.dueDate,
         timeDue: this.state.timeDue,
         started: this.state.started,
         finished: this.state.finished,
-        durationHours: this.state.durationHours,
-        durationMinutes: this.state.durationMinutes,
+        durationHours: Number(this.state.durationHours),
+        durationMinutes: Number(this.state.durationMinutes),
         notes: this.state.notes,
         recurring: this.state.recurring,
         kill:this.state.kill,
@@ -158,172 +159,77 @@ class CreateTask extends Component {
     }
   }
 
+  selectorOptions = ["one", "two", "three"].map( (option, index) => {
+    return (
+       <option key={index} value={Object.keys(option)[0]}>
+          {Object.values(option)[0]}
+       </option>
+     )
+   })
+
 render(){
   return(
-    <div className="container">
-      <h3>Create New Task</h3>
+    <div style={{color: "#9D9C9D"}} className="container">
+
+      <h3 className="section-title">Create Task</h3>
       <form onSubmit={this.onSubmit.bind(this)}>
-      <label>Task Name:</label>
-      <input
-        onChange={event => this.setState({
+
+      <Row>
+      <Input  s={12} label="Task:"
+         onChange={event => this.setState({
           content: event.target.value
         })}
         value={this.state.content}
       />
-      <label>Status: </label>
-      {/* <  ReactRadioButtonGroup
-          name="status"
-          options={["pending", "underway","complete"]}
+
+      <Input s={6} type='select' className="browser-default" style={{backgroundColor:"#192123", paddingTop: "10px"}} value={this.state.priority} onChange={value => { console.log(value.target.value); this.setState({
+      priority: value.target.value
+      })}}>
+      <option value="0" disabled="disabled" selected="selected">Priority: </option>
+      <option value='1'>Not Pressing</option>
+      <option value='2'>Pressing</option>
+      <option value='3'>Urgent</option>
+      <option value='4'>Nuclear !!!</option>
+      </Input>
+      <Input
+          s={6}
+          type='select'
+          className="browser-default"
+          style={{backgroundColor:"#192123", paddingTop: "10px"}}
           value={this.state.status}
-          onChange={checkedValue => {
-            this.setState({
-              status: checkedValue
-            })
+          onChange={ event => {
+            console.log('status', event.target.value);
+            this.setState({ status: event.target.value })
           }}
-      /> */}
-      <br/>
-
-      <label>Priority:</label>
-      <br/>
-      <label>Enter a number between 0-4: </label>
-      <label>0: Not pressing.             </label>
-      <label>1: At soonest convenience. </label>
-      <label>2: Important. </label>
-      <label>3: Urgent. </label>
-      <label>4: Nuclear !!!. </label>
-
-      {/* <  ReactRadioButtonGroup
-          name="priority"
-          options={["0", "1","2","3","4"]}
-          value={this.state.priority.toString()}
-          onChange={checkedValue => {
-            this.setState({
-              priority: Number(checkedValue)
-            })
-          }}
-      /> */}
-      <br/>
-      <label>Duration - Hours:</label>
-      <input
-        type="Number"
-
-        onChange={event => this.setState({
-          durationHours: Number(event.target.value)
-        })}
-        value={this.state.durationHours}
+          defaultValue="n/a"
+      >
+      <option value="n/a" disabled="disabled" >Status: </option>
+      <option value='pending'>Pending</option>
+      <option value='underway'>Underway</option>
+      <option value='complete'>Complete</option>
+      </Input>
+      <Input  s={6} type="number" label="Exp. Duration Hrs:"
+       value={this.state.durationHours}
+          onChange={event => this.setState({
+          durationHours: event.target.value
+        })}/>
+        <br/>
+        <br/>
+      <Input  s={6} type="number" label="Exp. Duration Mins:"
+                  onChange={event => this.setState({
+                    durationMinutes: event.target.value
+                  })}
+                  value={this.state.durationMinutes}
       />
-      <label>Duration - Minutes:</label>
-      <input
-        type="Number"
-        onChange={event => this.setState({
-          durationMinutes: Number(event.target.value)
-        })}
-        value={this.state.durationMinutes}
-      />
-      <br/>
-      <label>Recurring?:</label>
-      {/* <ReactRadioButtonGroup
-          name="recurringText"
-          options={["Yes", "No"]}
-          value={this.state.recurringText}
-          onChange={checkedValue => {
-            this.setState({
-              recurringText: checkedValue
-            })
-          }}
-      /> */}
-      <hr/>
-      <div style={{color: "black",backgroundColor: "rgba(206, 66, 87, .3)", padding: "20px"}}>
-
-      <label style={{color: "black"}}>If this task is recurring, consider the following items:</label>
-      <br/>
-      <label  style={{color: "black"}} >This task should repeat every: </label>
-      <input
-        type="Number"
-        onChange={event => {this.setState({
-          recurringInterval: Number(event.target.value),
-        })
-        this.handleRecurringBirth();
-        this.handleRecurringDeath();
-      }}
-        value={this.state.recurringInterval}
-      />
-      {/* <ReactRadioButtonGroup
-          name="recurringMultiplier"
-          options={["Minute(s)", "Hour(s)", "Day(s)", "Month(s)"]}
-          value={this.state.recurringMultiplier}
-          onChange={checkedValue => {
-            this.setState({
-              recurringMultiplier: checkedValue,
-            })
-            this.handleRecurringBirth();
-            this.handleRecurringDeath();
-          }}
-      /> */}
-      <br/>
-      <label  style={{color: "black"}}>This task should stop repeating in: </label>
-
-
-
-      <input
-        type="Number"
-        onChange={event => {
-          this.setState({
-            recurringDeathNumber: Number(event.target.value)
-          })
-          this.handleRecurringBirth();
-          this.handleRecurringDeath();
-        }}
-        value={this.state.recurringDeathNumber}
-      />
-      {/* <ReactRadioButtonGroup
-          name="recurringDeathMultiplier"
-          options={["Minute(s)", "Hour(s)", "Day(s)", "Month(s)"]}
-          value={this.state.recurringDeathMultiplier}
-          onChange={checkedValue => {
-          this.setState({
-             recurringDeathMultiplier: checkedValue
-          })
-          this.handleRecurringBirth();
-          this.handleRecurringDeath();
-        }}
-      /> */}
-          <label style={{color: "black", textDecoration: "bold"}}>Are you sure you want to make this task recurring?</label>
-          {/* <ReactRadioButtonGroup
-          name="test"
-          options={["Yes", "No"]}
-          value={this.state.recurringDoubleCheck}
-
-          onChange={checkedValue => {
-            this.handleRecurringBirth();
-            this.handleRecurringDeath();
-            if(this.state.recurringText == "Yes" && checkedValue == "Yes"){
-              this.setState({
-                recurring: true,
-                recurringDoubleCheck: checkedValue
-
-              });
-
-            } else {
-              this.setState({
-                recurring: false,
-                recurringDoubleCheck: checkedValue
-              })
-            }
-
-          }}
-      /> */}
-      </div>
-      <hr/>
-      <label>Notes:</label>
-      <input
-        onChange={event => this.setState({
+      <Input  s={12} label="Notes:"
+         onChange={event => this.setState({
           notes: event.target.value
         })}
         value={this.state.notes}
       />
-          <input className="btn-flyou are logged inating btn-large red right" style={{margin: "10px"}} type="submit" value="Submit" />
-          <Link style={{margin: "10px"}} className="btn-flyou are logged inating btn-large red right" to={`/dashboard/list/${this.props.match.params.listID}`}>Cancel</Link>
+    </Row>
+          <button className="waves-effect waves-light right btn-medium outline " style={{margin: "10px"}} type="submit" value="Submit" >Submit</button>
+          <Link style={{margin: "10px"}} className="outline right" to={`/dashboard/list/${this.props.match.params.listID}`}>Cancel</Link>
       </form>
     </div>
   )

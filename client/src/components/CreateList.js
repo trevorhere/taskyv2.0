@@ -30,9 +30,9 @@ class CreateList extends Component {
 render(){
   return(
     <div style={{color: "#9D9C9D"}}  className="container input">
-      <h3>Create New List</h3>
+      <h3 className="section-title">Create New List</h3>
       <form onSubmit={this.onSubmit.bind(this)}>
-      <label>List Name:</label>
+      <label >List Name:</label>
       <input
         onChange={event => this.setState({
           name: event.target.value
@@ -47,8 +47,8 @@ render(){
         })}
         value={this.state.description}
       />
-        <input className="btn-flyou are logged inating btn-large red right" style={{margin: "10px"}} type="submit" value="Submit" />
-        <Link to="/dashboard" style={{margin: "10px"}} className="btn-flyou are logged inating btn-large red right" >Cancel</Link>
+        <button className="waves-effect waves-light right btn-medium outline " style={{margin: "10px"}} type="submit" value="Submit" >Submit</button>
+        <Link to="/dashboard" style={{margin: "10px"}} className="outline right" >Cancel</Link>
       </form>
     </div>
   )

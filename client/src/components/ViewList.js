@@ -6,8 +6,9 @@ import changeTaskStatus from '../gql/mutations/ChangeTaskStatus';
 import setRecurringFalse from '../gql/mutations/SetRecurringFalse';
 import duplicateRecurringTask from '../gql/mutations/DuplicateRecurringTask';
 import Loading from './Loading'
+import  {Col, Card, CardTitle, Button } from 'react-materialize'
 import '../styles/App.css';
-
+import office from '../assets/office.jpg'
 
 const moment = require('moment');
 
@@ -54,68 +55,103 @@ class ViewList extends Component{
      }
   }
 
+          // <p><a className="viewLink " href={}>View</a></p>
+
+  fetchIcon(type, onClick){
+    return (
+    <Button
+    floating
+    className='red'
+    waves='light'
+    icon={type}
+    onClick={onClick}
+    // onClick={() => {  this.changeTaskStatus(id, "complete", started, moment().format('MM/DD/YY, HH:mm'), recurring); refetch();}}
+    />
+    )
+  }
+
+  viewTask(id){
+    return (() => {
+      this.props.history.push(`/dashboard/list/${this.props.match.params.listID}/task/${id}`)
+     }
+    )
+  }
+
+  setOnClick(type, id, started, finished, recurring, refetch){
+    switch(type){
+      case "done":
+        return(() => {
+          this.changeTaskStatus(
+              id,
+              "complete",
+              started,
+              moment().format('MM/DD/YY, HH:mm'),
+              recurring
+            );
+            refetch();
+        })
+      case "play_arrow":
+        return(() => {
+          this.changeTaskStatus(
+              id,
+              "underway",
+              moment().format('MM/DD/YY, HH:mm'),
+              finished,
+              recurring
+            );
+            refetch();
+        });
+      default:
+        return this.viewTask(id);
+    }
+  }
+
+  renderCardIcons(id, status, started, finished ,recurring, refetch){
+    switch(status){
+      case "complete":
+      return (
+        <div style={{display:'flex', flexDirection:"row", justifyContent:"space-between" }}>
+           {this.fetchIcon("help", this.viewTask(id))}
+        </div>
+      )
+      case "underway":
+      return (
+        <div style={{display:'flex', flexDirection:"row", justifyContent:"space-evenly" }}>
+           {this.fetchIcon("help", this.viewTask(id))}
+           {this.fetchIcon("done", this.setOnClick("done",id, started, finished ,recurring, refetch))}
+        </div>
+    )
+      default:
+      return (
+        <div style={{display:'flex', flexDirection:"row", justifyContent:"space-between" }}>
+           {this.fetchIcon("help", this.viewTask(id))}
+           {this.fetchIcon("play_arrow", this.setOnClick("play_arrow",id, started, finished ,recurring, refetch))}
+           {this.fetchIcon("done", this.setOnClick("done",id, started, finished ,recurring, refetch))}
+        </div>
+    )
+
+    }
+
+
+  }
+
   renderTasks(tasks, refetch){
     return ( tasks ?
       tasks.map(({id, content, status, started, finished, priority, durationHours, durationMinutes, recurring }) => {
       return (
-        <div className="col s12 m4">
-      <div class="card"  style={cardStyle} className={this.setGlow(status)}>
-      <span className="card-title" style={{fontSize:"24px"}}>
-        {<div style={{marginRight: "20px" }}>
-         <Link to={`/dashboard/list/${this.props.match.params.listID}/task/${id}`} >{content}</Link>
-          <div style={{float:"right"}}>{
-          status == "complete" ? <div></div> :
-          <div>
-            {status == "underway" ?
-            <div>
-              <i
-                className="material-icons"
-                onClick={() => {this.changeTaskStatus(id, "complete", started, moment().format('MM/DD/YY, HH:mm'), recurring); refetch();}}
-                style={{paddingLeft:"10px"}}
-              > done</i>
-            </div> :
-            <div>
-              <i
-                className="material-icons"
-                onClick={() => {this.changeTaskStatus(id, "underway", moment().format('MM/DD/YY, HH:mm'), finished, recurring); refetch();}}
-                style={{paddingLeft:"10px"}}
-               >add</i>
-              <i
-                className="material-icons"
-                onClick={() => {this.changeTaskStatus(id, "complete", started, moment().format('MM/DD/YY, HH:mm'), recurring); refetch();}}
-                style={{paddingLeft:"10px"}}
-              > done</i>
-            </div>
-            }
-          </div> }
-          </div>
-          </div> }
-      </span>
-      <br></br>
-      <div className="card-content">
-        <div style={style} className="">
-              <span style={{ fontSize: "16px", fontWeight:"bold"}}>
-              Priority:
-              </span> Level {priority}
-              <br/>
-              <span style={{ fontSize: "16px", fontWeight:"bold"}}>
-                Duration:
-              </span>
-              {durationHours}Hr {durationMinutes}Min
-              <br/>
-              <span style={{ fontSize: "16px", fontWeight:"bold"}}>
-                Status:
-              </span>
-            { status}
-        </div>
-        <br/>
-        <div className="card-action">
-            <a href={``}>View</a>
-          </div>
-      </div>
-      </div>
-      </div>
+        <Col s={12} m={4}>
+        <Card style={{backgroundColor: '#2A3335'}} className={this.setGlow(status)} header={<CardTitle waves='light'/>}
 
+          title={<span style={{color:"#070808"}}>{content}</span>}>
+          <div style={style} className="">
+            <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Priority</span>: Level {priority}</span>
+            <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Duration: </span> {durationHours}Hr {durationMinutes}Min</span>
+            <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Status:</span> {status}</span>
+            <br/>
+        </div>
+          {this.renderCardIcons(id, status, started,finished, recurring, refetch)}
+        </Card>
+      </Col>
       )}) : <div> No tasks. </div> )}
 
 
@@ -209,6 +245,7 @@ class ViewList extends Component{
       >
         {({loading, error, data, refetch }) => {
           const { list } = data;
+          console.log('list',list)
 
           if (loading) {
             return (
@@ -264,7 +301,7 @@ class ViewList extends Component{
               <div style={{marginTop: "10px"}}>
               <Link
                 to={`${this.props.match.url}/createtask`}
-                className="btn-large red right"
+                className="outline right"
                 style={{margin: "10px"}}
 
               >
@@ -272,7 +309,7 @@ class ViewList extends Component{
               </Link>
                 <Link
                 to={`${this.props.match.url}/assignlist`}
-                className="btn-large red right"
+                className="outline right"
                 style={{margin: "10px"}}
                 >
                 Assign List
@@ -280,7 +317,7 @@ class ViewList extends Component{
               <Link
                 to={`/dashboard`}
                 style={{margin: "10px"}}
-                className=" btn-large red right">Back</Link>
+                className="outline right">Back</Link>
                 </div>
           </div>
           );

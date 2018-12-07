@@ -30,8 +30,8 @@ class CreateTeam extends Component {
 
 render(){
   return(
-    <div style={{color: "#9D9C9D"}} className="container">
-      <h3>Create New Team</h3>
+    <div style={{color: "#9D9C9D"}}  className="container input">
+      <h3  className="section-title">Create New Team</h3>
       <form onSubmit={this.onSubmit.bind(this)}>
       <label>Team Name:</label>
       <input
@@ -47,8 +47,8 @@ render(){
         })}
         value={this.state.description}
       />
-        <input className="btn-large red right" style={{margin: "10px"}} type="submit" value="Submit" />
-        <Link to="/dashboard" style={{margin: "10px"}} className="btn-flyou are logged inating btn-large red right" >Cancel</Link>
+        <button className="waves-effect waves-light right btn-medium outline " style={{margin: "10px"}} type="submit" value="Submit" >Submit</button>
+        <Link to="/dashboard" style={{margin: "10px"}} className="outline right" >Cancel</Link>
 
       </form>
     </div>

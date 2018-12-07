@@ -3,9 +3,47 @@ import { Link } from 'react-router-dom';
 import {  Query } from 'react-apollo';
 import query from '../gql/queries/fetchTeam';
 import Loading from './Loading';
+import {Card, CardTitle, Button} from 'react-materialize'
 
 
 class ViewTeam extends Component{
+
+
+
+  renderListCards(team){
+    return team.members.map(({id, name, position}) => {
+      return (
+        <div key={id} className="col s12 m4" >
+        <Card style={{backgroundColor: "#2A3335"}}  header={
+          <CardTitle  waves='light'/>}
+              title={<span style={{color:"#070808"}}>{name}</span>}>
+             <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Position</span>: {position}</span>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <div style={{display:'flex', flexDirection:"row", justifyContent:"flex-end" }}>
+            <Button
+              floating
+              className='red'
+              waves='light'
+              icon="help"
+              onClick={this.viewProfile(team, id)}
+            />
+          </div>
+        </Card>
+        </div>
+      )
+    })
+  }
+
+  viewProfile(team, id){
+    return (() => {
+      console.log('test')
+      this.props.history.push(`/dashboard/team/${team.id}/user/${id}`)
+     }
+    )
+  }
 
   renderTeam(team){
     return ( team.members ? team.members.map(({id, name, position }) => {
@@ -45,14 +83,14 @@ class ViewTeam extends Component{
           const { team } = data;
           return (
             <div className="container">
-            <h3>Team: {team.name}</h3>
-            <ul className="collection">
-            { this.renderTeam(team)}
-            </ul>
+            <h3 className="section-title">{team.name}</h3>
+            <div className="row" >
+                {this.renderListCards(team)}
+          </div>
               <div style={{marginTop: "10px"}}>
               <Link
                 to={`${this.props.match.url}/createuser`}
-                className="btn-large red right"
+                className="outline right"
                 style={{margin: "10px"}}
               >
                 Add Member To Team
@@ -60,7 +98,7 @@ class ViewTeam extends Component{
               <Link
                 to={`/dashboard`}
                 style={{margin: "10px"}}
-                className=" btn-large red right">Back</Link>
+                className=" outline right">Back</Link>
                 </div>
           </div>
           );

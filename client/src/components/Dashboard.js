@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import query from '../gql/queries/Dashboard';
 import Loading from './Loading';
-import {Card, CardTitle, Icon} from 'react-materialize'
-import office from '../assets/office.jpg';
+import {Card, CardTitle} from 'react-materialize'
 import '../styles/App.css';
 
 class Dashboard extends Component {
@@ -21,18 +20,17 @@ class Dashboard extends Component {
 
   renderListCards(items, link){
     return items.map(({id, name, description}) => {
-      console.log('desc', description)
       return (
         <div key={id} className="col s12 m4" >
-        <Card   style={{backgroundColor: "#2A3335"}}  header={
+        <Card style={{backgroundColor: "#2A3335"}}  header={
           <CardTitle reveal waves='light'/>}
           title={name}
           reveal={<p>
 
            {description}
-           <a style={{color:"#ED6E72"}} className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
+             <a className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
             </p>}>
-          <p><a style={{color:"#ED6E72"}} className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
+          <p><a className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
           </p>
         </Card>
         </div>
@@ -60,7 +58,6 @@ class Dashboard extends Component {
       return ( <Loading loading={this.props.data.loading} /> )
     }
     const { teams, lists } = this.props.data.user;
-    console.log(this.props);
     return (
       <div className="container">
         <div >

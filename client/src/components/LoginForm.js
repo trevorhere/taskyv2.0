@@ -33,8 +33,8 @@ class LoginForm extends Component {
 
   render(){
     return (
-      <div className="container">
-        <h3>Login</h3>
+      <div style={{color: "#9D9C9D"}} className="container">
+        <h3 className="section-title">Login</h3>
         <form onSubmit={this.onSubmit.bind(this)} className="col s6">
           <div className="input-field">
           <input
@@ -55,7 +55,7 @@ class LoginForm extends Component {
             })}
           />
           </div>
-          <button className="btn">Submit</button>
+          <button className="waves-effect waves-light right btn-medium outline">Submit</button>
         </form>
       </div>
     )
