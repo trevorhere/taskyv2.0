@@ -36,11 +36,12 @@ const mutation = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: {type: GraphQLString },
         name: { type: GraphQLString },
+        phoneNumber: { type: GraphQLString },
         position: {type: GraphQLString}
 
       },
-      resolve(parentValue, {email, password, name, position }, req ){
-        return AuthService.signup({ email, password, name, position, req });
+      resolve(parentValue, {email, password, name,phoneNumber, position }, req ){
+        return AuthService.signup({ email, password, name, phoneNumber, position, req });
       }
     },
     logout: {
@@ -67,11 +68,12 @@ const mutation = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: {type: GraphQLString },
         name: { type: GraphQLString },
+        phoneNumber: { type: GraphQLString },
         position: {type: GraphQLString},
         teamID: {type: GraphQLID}
       },
-      resolve(parentValue, {email, password, name, position, teamID}){
-        return Team.createUser(email, password, name, position, teamID)
+      resolve(parentValue, {email, password, name, phoneNumber, position, teamID}){
+        return Team.createUser(email, password, name, phoneNumber, position, teamID)
       }
     },
     existingUserToTeam: {
@@ -220,7 +222,7 @@ const mutation = new GraphQLObjectType({
       resolve(parentValue, {taskID, status, started, finished}){
         return Task.duplicateRecurringTask(taskID, status, started, finished);
     }
-  },
+    },
     createList: {
       type: ListType,
       args: {
@@ -230,6 +232,15 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, {ownerID, name, description}){
         return User.createList(ownerID, name, description);
+      }
+    },
+    deleteList: {
+      type: ListType,
+      args: {
+        listID: { type: GraphQLID }
+      },
+      resolve(parentValue, {listID}){
+        return List.deleteList(listID);
       }
     }
   }

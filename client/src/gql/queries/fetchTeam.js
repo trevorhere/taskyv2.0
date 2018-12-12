@@ -9,6 +9,7 @@ query Team($teamID:ID){
         id
         name
         position
+        phoneNumber
       }
     leader{
       id

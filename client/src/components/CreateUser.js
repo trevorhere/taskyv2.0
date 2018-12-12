@@ -14,15 +14,16 @@ class CreateUser extends Component {
       email: '',
       password: '',
       name: '',
-      position: ''
+      position: '',
+      phoneNumber: ''
     }
   }
 
   onSubmit(event){
     event.preventDefault();
-    const {email, password, name, position} = this.state;
+    const {email, password, name, position, phoneNumber} = this.state;
     this.props.CreateUser({
-      variables: {email, password, name, position, teamID:this.props.match.params.teamID },
+      variables: {email, password, name, position, phoneNumber, teamID:this.props.match.params.teamID },
       refetchQueries: [{ query }]
     })
 
@@ -43,9 +44,9 @@ class CreateUser extends Component {
 
   render(){
     return (
-      <div className="container">
+      <div  style={{color: "#9D9C9D"}} className="container">
       <div>
-      <h3>Create User</h3>
+      <h3  className="section-title">Create User</h3>
       <form onSubmit={this.onSubmit.bind(this)} className="col s6">
         <div className="input-field">
         <input
@@ -72,6 +73,15 @@ class CreateUser extends Component {
         </div>
         <div className="input-field">
         <input
+          placeholder="Phone Number - country code included, i.e: '+1'"
+          value={this.state.phoneNumber}
+          onChange={e => this.setState({
+            phoneNumber: e.target.value
+          })}
+        />
+        </div>
+        <div className="input-field">
+        <input
           type="password"
           placeholder="password"
           value={this.state.password}
@@ -80,9 +90,8 @@ class CreateUser extends Component {
           })}
         />
         </div>
-        <input className="btn-large red right" style={{margin: "10px"}} type="submit" value="Submit" />
-      <Link style={{margin: "10px"}} className="btn-flyou are logged inating btn-large red right" to={`/dashboard/team/${this.props.match.params.teamID}`}>Cancel</Link>
-
+        <button className="waves-effect waves-light right btn-medium outline " style={{margin: "10px"}} type="submit" value="Submit" >Submit</button>
+          <Link style={{margin: "10px"}} className="outline right" to={`/dashboard/list/${this.props.match.params.teamID}`}>Cancel</Link>
       </form>
       <br/>
       <br/>
@@ -91,8 +100,7 @@ class CreateUser extends Component {
       <br/>
       <br/>
 
-      <hr/>
-      <h3>Invite Existing User</h3>
+      <h3  className="section-title">Invite Existing User</h3>
       <form onSubmit={this.findExistingUser.bind(this)} className="col s6">
       <div className="input-field">
       <input
@@ -103,9 +111,8 @@ class CreateUser extends Component {
           })}
         />
         </div>
-        <input className="btn-large red right" style={{margin: "10px"}} type="submit" value="Submit" />
-      <Link style={{margin: "10px"}} className="btn-flyou are logged inating btn-large red right" to={`/dashboard/team/${this.props.match.params.teamID}`}>Cancel</Link>
-
+          <button className="waves-effect waves-light right btn-medium outline " style={{margin: "10px"}} type="submit" value="Submit" >Submit</button>
+          <Link style={{margin: "10px"}} className="outline right" to={`/dashboard/list/${this.props.match.params.teamID}`}>Cancel</Link>
         </form>
     </div>
     </div>

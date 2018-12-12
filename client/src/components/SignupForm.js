@@ -11,15 +11,16 @@ class SignupForm extends Component {
       email: '',
       password: '',
       name: '',
-      position: ''
+      position: '',
+      phoneNumber: '',
     }
   }
 
   onSubmit(event){
     event.preventDefault();
-    const {email, password, name, position} = this.state;
+    const {email, password, name, position, phoneNumber} = this.state;
     this.props.mutate({
-      variables: {email, password, name, position},
+      variables: {email, password, name, position, phoneNumber},
       refetchQueries: [{ query }]
     })
 
@@ -52,6 +53,15 @@ class SignupForm extends Component {
           value={this.state.position}
           onChange={e => this.setState({
             position: e.target.value
+          })}
+        />
+        </div>
+        <div className="input-field">
+        <input
+          placeholder="Phone Number - country code included, i.e: '+1'"
+          value={this.state.phoneNumber}
+          onChange={e => this.setState({
+            phoneNumber: e.target.value
           })}
         />
         </div>

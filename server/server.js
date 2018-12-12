@@ -22,6 +22,8 @@ mongoose.connection
     .once('open', () => console.log('Connected to MongoLab instance.'))
     .on('error', error => console.log('Error connecting to MongoLab:', error));
 
+
+
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -34,6 +36,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
 
 app.use('/graphql', expressGraphQL({
   schema,

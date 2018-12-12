@@ -8,7 +8,6 @@ import duplicateRecurringTask from '../gql/mutations/DuplicateRecurringTask';
 import Loading from './Loading'
 import  {Col, Card, CardTitle, Button } from 'react-materialize'
 import '../styles/App.css';
-import office from '../assets/office.jpg'
 
 const moment = require('moment');
 
@@ -141,7 +140,6 @@ class ViewList extends Component{
       return (
         <Col s={12} m={4}>
         <Card style={{backgroundColor: '#2A3335'}} className={this.setGlow(status)} header={<CardTitle waves='light'/>}
-
           title={<span style={{color:"#070808"}}>{content}</span>}>
           <div style={style} className="">
             <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Priority</span>: Level {priority}</span>

@@ -8,6 +8,7 @@ const UserSchema = new Schema({
   email: String,
   password: String,
   name: String,
+  phoneNumber: String,
   position: String,
   team: {
     type: Schema.Types.ObjectId,
@@ -51,7 +52,7 @@ UserSchema.statics.createList = function(id, name, description){
       console.log(list)
       user.lists.push(list)
       return Promise.all([list.save(), user.save()])
-        .then(([list, user]) => user);
+        .then(([list, user]) => list);
     });
 }
 

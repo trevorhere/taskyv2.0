@@ -11,13 +11,14 @@ class ViewTeam extends Component{
 
 
   renderListCards(team){
-    return team.members.map(({id, name, position}) => {
+    return team.members.map(({id, name, position, phoneNumber}) => {
       return (
         <div key={id} className="col s12 m4" >
         <Card style={{backgroundColor: "#2A3335"}}  header={
           <CardTitle  waves='light'/>}
               title={<span style={{color:"#070808"}}>{name}</span>}>
              <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Position</span>: {position}</span>
+             <p>Phone: {phoneNumber}</p>
           <br/>
           <br/>
           <br/>

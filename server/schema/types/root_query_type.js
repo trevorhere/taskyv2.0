@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLID, GraphQLNonNull } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLNonNull } = graphql;
 
 const UserType = require('./user_type');
 const ListType = require('./list_type');
@@ -27,6 +27,13 @@ const RootQueryType = new GraphQLObjectType({
       args: {userID: {type: GraphQLID}},
         resolve(parentValue, {userID}){
           return User.findById(userID);
+        }
+    },
+    userSMS: {
+      type: UserType,
+      args: {phoneNumber: {type: GraphQLString}},
+        resolve(parentValue, {phoneNumber}){
+          return User.findOne({phoneNumber})
         }
     },
     team: {

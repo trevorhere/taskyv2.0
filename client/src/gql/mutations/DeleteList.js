@@ -1,12 +1,10 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  {
-	user {
+mutation DeleteList($listID: ID){
+  deleteList(listID: $listID){
     id
-    email
     name
-    phoneNumber
   }
 }
 `;

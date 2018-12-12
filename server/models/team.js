@@ -22,12 +22,12 @@ TeamSchema.statics.fetchMembers = function(id){
     .then(team => team.members);
 }
 
-TeamSchema.statics.createUser = function(email, password, name, position, teamID){
+TeamSchema.statics.createUser = function(email, password, name,phoneNumber, position, teamID){
   const User = mongoose.model('user');
 
   return this.findById(teamID)
   .then(team => {
-    const user = new User({email, password, name, position, team})
+    const user = new User({email, password, name,phoneNumber,position, team})
     team.members.push(user)
 
             return Promise.all([user.save(), team.save()])

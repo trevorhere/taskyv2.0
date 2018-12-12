@@ -95,4 +95,13 @@ ListSchema.statics.assignUserToList = function(email, listID){
 
 }
 
+ListSchema.statics.deleteList = function(listID){
+  return this.findById(listID)
+  .then(list => {
+    list.remove();
+    return list;
+})
+}
+
+
 mongoose.model('list', ListSchema);

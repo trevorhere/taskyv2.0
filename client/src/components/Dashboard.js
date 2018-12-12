@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import query from '../gql/queries/Dashboard';
 import Loading from './Loading';
-import {Card, CardTitle} from 'react-materialize'
+import {Card, CardTitle,  Button} from 'react-materialize'
 import '../styles/App.css';
 
 class Dashboard extends Component {
@@ -23,15 +23,21 @@ class Dashboard extends Component {
       return (
         <div key={id} className="col s12 m4" >
         <Card style={{backgroundColor: "#2A3335"}}  header={
-          <CardTitle reveal waves='light'/>}
+          <CardTitle  waves='light'/>}
           title={name}
-          reveal={<p>
-
-           {description}
-             <a className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
-            </p>}>
-          <p><a className="viewLink" href={`/dashboard/${link}/${id}`}>View</a>
-          </p>
+          >
+          {description}
+          <div style={{display:'flex', flexDirection:"row", justifyContent:"flex-end" }}>
+          <Button
+              floating
+              className='red'
+              waves='light'
+              icon="help"
+              onClick={() => {
+                this.props.history.push(`/dashboard/${link}/${id}`);
+              }}
+            />
+            </div>
         </Card>
         </div>
 
