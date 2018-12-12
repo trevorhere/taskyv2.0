@@ -48,7 +48,7 @@ exports.parse = (req, res) => {
 
     // fetch lists
     case "list":
-    fetchLists(From, selectList);
+    fetchLists(From, selectedList);
     break;
 
     case "lists":
