@@ -27,11 +27,10 @@ app.get('/sms', (req, res) => {
 
 });
 
-app.post('/sms', (req, res) => {
-  console.log('sms post hit');
-  parser.parse(req,res);
-
-});
+// app.post('/sms', (req, res) => {
+//   console.log('sms post hit');
+//   parser.parse(req,res);
+// });
 
 
 app.listen(port, () => {
