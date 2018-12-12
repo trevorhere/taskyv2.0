@@ -20,12 +20,10 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 4000;
 
-app.get('/sms', (req, res) => {
-  console.log('sms get hit');
-
-  parser.parse(req,res);
-
-});
+// app.get('/sms', (req, res) => {
+//   console.log('sms get hit');
+//   parser.parse(req,res);
+// });
 
 // app.post('/sms', (req, res) => {
 //   console.log('sms post hit');
