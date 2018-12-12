@@ -62,7 +62,7 @@ exports.parse = (req, res) => {
 
     // remove list
     case "remove":
-    deleteList(secondCommand, From);
+    deleteList(selectedList, From);
     break;
 
     //add task
