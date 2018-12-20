@@ -90,7 +90,6 @@ exports.createList = async (name, phoneNumber) => {
 
 
 exports.deleteList = async (name, phoneNumber) => {
-
   try {
     let userData = await fetchUser(phoneNumber)
 
@@ -107,8 +106,6 @@ exports.deleteList = async (name, phoneNumber) => {
       sendSMS(`List ${name} not found.`,phoneNumber);
       return;
     }
-
-    console.log('ltd ',listToDelete[0].id);
 
     fetch({
       query: `mutation DeleteList($listID: ID){

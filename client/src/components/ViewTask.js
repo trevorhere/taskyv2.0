@@ -75,9 +75,7 @@ constructor(props){
             </div> : <span></span>}
             <br/>
             Notes: {task.notes}
-            <br/>
-            Feedback: {task.feedback}
-            <br/>
+
             </div>
             <div style={{marginTop: "10px"}}>
 

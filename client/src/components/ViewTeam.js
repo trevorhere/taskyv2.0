@@ -7,9 +7,6 @@ import {Card, CardTitle, Button} from 'react-materialize'
 
 
 class ViewTeam extends Component{
-
-
-
   renderListCards(team){
     return team.members.map(({id, name, position, phoneNumber}) => {
       return (

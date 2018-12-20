@@ -24,6 +24,8 @@ import ViewUser from './ViewUser';
 import HomePage from './HomePage';
 import AssignList from './AssignList';
 
+import SMSInstructions from './SMSInstructions'
+
 
 const App = (props) => {
   return (
@@ -42,6 +44,7 @@ const App = (props) => {
           <Route path="/dashboard/list/:listID" component={requireAuth(ViewList)} />
           <Route path="/dashboard/createlist" component={requireAuth(CreateList)} />
           <Route path="/dashboard" component={requireAuth(Dashboard)} />
+          <Route path="/sms_instructions" component={SMSInstructions} />
           <Route path="/" component= {HomePage}/>
       </ Switch>
     </div>

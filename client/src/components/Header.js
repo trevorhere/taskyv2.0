@@ -29,6 +29,9 @@ class Header extends Component {
       return (
         <div>
           <li>
+            <Link to={`/sms_instructions`}> SMS</Link>
+          </li>
+          <li>
             <Link to={`/dashboard`}> Dashboard</Link>
           </li>
           <li>

@@ -23,7 +23,6 @@ const AuthService = require('../services/auth');
 
 //future mutations
 // - remove list
-// - remove items
 // - completed items?
 
 

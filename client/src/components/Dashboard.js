@@ -24,7 +24,7 @@ class Dashboard extends Component {
         <div key={id} className="col s12 m4" >
         <Card style={{backgroundColor: "#2A3335"}}  header={
           <CardTitle  waves='light'/>}
-          title={name}
+          title={<h3 className="red-title">{name}</h3>}
           >
           {description}
           <div style={{display:'flex', flexDirection:"row", justifyContent:"flex-end" }}>

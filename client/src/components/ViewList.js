@@ -32,9 +32,6 @@ const cardStyle = {
 }
 
 
-
-
-
 class ViewList extends Component{
   constructor(props){
     super(props)
@@ -140,7 +137,7 @@ class ViewList extends Component{
       return (
         <Col s={12} m={4}>
         <Card style={{backgroundColor: '#2A3335'}} className={this.setGlow(status)} header={<CardTitle waves='light'/>}
-          title={<span style={{color:"#070808"}}>{content}</span>}>
+          title={<span style={{color:"#070808"}}>{<h3  className="red-title">{content}</h3>}</span>}>
           <div style={style} className="">
             <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Priority</span>: Level {priority}</span>
             <span><span style={{ fontSize: "16px", fontWeight:"bold"}}>Duration: </span> {durationHours}Hr {durationMinutes}Min</span>
