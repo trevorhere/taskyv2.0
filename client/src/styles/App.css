@@ -9,13 +9,8 @@
 
 .glowing-border {
   outline: none;
-  border-color: #60B87C;
-  box-shadow: 0 0 10px #60B87C;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+  border-color: #60b87c;
+  box-shadow: 0 0 10px #60b87c;
 }
 
 .App-header {
@@ -32,17 +27,20 @@
 .App-link {
   color: #61dafb;
 }
-
+.container {
+  padding: 50px;
+}
 
 .section-title {
-    color: #ED6E72;
-    font-size: 24px;
-    width: 60vw;
-    font-weight: 300;
+  color: #ed6e72;
+  font-size: 24px;
+  width: 60vw;
+  font-weight: 300;
 }
 
 .red-title {
-  color: #F34538;
+  color: #f34538;
+  text-align: left;
   font-size: 24px;
   width: 60vw;
   font-weight: 300;
@@ -56,8 +54,6 @@
     transform: rotate(360deg);
   }
 }
-
-
 
 /* @-webkit-keyframes glowing {
   0%   {  -webkit-box-shadow: 0 0 3px #60B87C; }
@@ -78,16 +74,27 @@
 } */
 
 @keyframes glowGreen {
-  0%   { box-shadow: 0 0 3px #60B87C; }
-  50%  { box-shadow: 0 0 20px #60B87C; }
-  100% { box-shadow: 0 0 3px #60B87C; }
+  0% {
+    box-shadow: 0 0 3px #60b87c;
+  }
+  50% {
+    box-shadow: 0 0 20px #60b87c;
+  }
+  100% {
+    box-shadow: 0 0 3px #60b87c;
+  }
 }
 
-
 @keyframes glowYellow {
-  0%   { box-shadow: 0 0 3px #1069FC; }
-  50%  { box-shadow: 0 0 20px #1069FC; }
-  100% { box-shadow: 0 0 3px #1069FC; }
+  0% {
+    box-shadow: 0 0 3px #1069fc;
+  }
+  50% {
+    box-shadow: 0 0 20px #1069fc;
+  }
+  100% {
+    box-shadow: 0 0 3px #1069fc;
+  }
 }
 
 .glowGreen {
@@ -97,33 +104,32 @@
   animation: glowGreen 1500ms infinite;
 }
 
-.glowYellow {
+.glowBlue {
   animation: glowYellow 1500ms infinite;
 }
 
 .outline {
-  border: 2px solid #F34538;
+  border: 2px solid #f34538;
   background-color: transparent;
-  color: #F34538;
+  color: #f34538;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
 }
 
 .outline:hover {
-  border: 2px solid #2A3335;
-  background-color: #2A3335;
+  border: 2px solid #2a3335;
+  background-color: #2a3335;
 }
 
-.viewLink{
-  color: #ED6E72;
-  border: 1px solid #2A3335;
+.viewLink {
+  color: #ed6e72;
+  border: 1px solid #2a3335;
   padding: 5px 10px;
-
 }
 
-.viewLink:hover{
-  border: 1px solid #ED6E72;
+.viewLink:hover {
+  border: 1px solid #ed6e72;
 }
 
 .grey {
@@ -131,6 +137,35 @@
 }
 
 .dark {
-  color: "#070808"
+  color: #070808;
 }
 
+.listCard {
+  background-color: #2a3335;
+  padding: 10px;
+}
+.listCard:hover {
+  background-color: #222224;
+}
+
+.taskCard {
+  background-color: #2a3335;
+  padding: 10px;
+}
+
+.createTaskModal {
+  background-color: #2a3335;
+}
+
+.modalButton {
+  margin: 5px !important;
+}
+.cardText {
+  color: white;
+  text-align: left;
+  padding: 0;
+}
+
+.modal-footer {
+  background-color: #2a3335 !important ;
+}
