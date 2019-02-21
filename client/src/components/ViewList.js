@@ -84,7 +84,7 @@ class ViewList extends Component {
         }
       })
       .then(
-        setTimeout(refetch(), 1000)
+        setTimeout(refetch(), 250)
         // this.props.history.push(
         //   `/dashboard/list/${this.props.match.params.listID}`
         // )
@@ -211,10 +211,24 @@ class ViewList extends Component {
               <td>{content}</td>
               <td>
                 {/* {status} */}
-                <Input s={8} type="select" defaultValue={status}>
-                  <option value={status}>{status}</option>
-                  <option value="2">Pending</option>
-                  <option value="3">Complete</option>
+                <Input
+                  onChange={event => {
+                    this.changeTaskStatus(
+                      id,
+                      event.target.value,
+                      started,
+                      finished,
+                      recurring,
+                      refetch
+                    );
+                  }}
+                  s={8}
+                  type="select"
+                  defaultValue={status}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="underway">Underway</option>
+                  <option value="complete">Complete</option>
                 </Input>
               </td>
               <td>{priority}</td>
@@ -319,7 +333,7 @@ class ViewList extends Component {
     );
   }
 
-  changeTaskStatus(taskID, status, started, finished, recurring) {
+  changeTaskStatus(taskID, status, started, finished, recurring, refetch) {
     if (recurring && status == "complete") {
       this.props.ChangeTaskStatus({
         variables: { taskID, status, started, finished }
@@ -332,6 +346,10 @@ class ViewList extends Component {
         variables: { taskID, status, started, finished }
       });
     }
+    setTimeout(refetch(), 250);
+    // this.props.history.push(
+    //   `/dashboard/list/${this.props.match.params.listID}`
+    // )
   }
 
   filteredTasks(list, filter) {
