@@ -29,7 +29,7 @@ class AssignList extends Component {
     if (this.props.data.loading) { return <div>Loading...</div>; }
     return(
       <div className="container">
-         <h3>Assign "{this.props.data.list.name}":</h3>
+              <h3 className="cardText">{`Assign ${this.props.data.list.name}`}</h3>
          <form onSubmit={this.onSubmit.bind(this)}>
           <label>User Email:</label>
           <input
