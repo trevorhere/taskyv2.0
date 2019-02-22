@@ -8,7 +8,6 @@ const TaskSchema = new Schema({
     ref: 'list'
   },
   status: { type: String },
-  rank: { type: String },
   created: { type: String },
   notes: { type: String },
   feedback: { type: String },
@@ -22,18 +21,20 @@ const TaskSchema = new Schema({
     ref: 'user'
   },
   recurring: {type: Boolean},
-  kill: {type: Number},
-  repeat: {type: Number},
   dueDate: {type:String},
   timeDue: {type:String},
   started: {type: String},
   finished: {type: String},
   durationHours: { type: Number },
   durationMinutes: { type: Number },
-  recurringInterval: { type: Number },
-  recurringDeathMultiplier:{type: String},
-  recurringDeathNumber:{ type: Number },
-  recurringMultiplier: {type: String},
+  rdi: { type: Number },
+  death:  { type: Number },
+  deathMultiplier:  { type: Number }, 
+  rbi: { type: Number },
+  birth:  { type: Number },
+  birthMultiplier:  { type: Number },
+
+
 });
 
 TaskSchema.statics.setRecurringFalse = function(taskID){
@@ -46,6 +47,10 @@ TaskSchema.statics.setRecurringFalse = function(taskID){
 }
 
 TaskSchema.statics.changeTaskStatus = function(taskID, status, started, finished){
+      console.log('task', taskID);
+      console.log('status', status);
+
+
   return this.findById(taskID)
     .then(task => {
         task.status = status;
@@ -66,7 +71,6 @@ TaskSchema.statics.duplicateRecurringTask = function(taskID, status, started, fi
         finished,
         content: task.content,
         list: task.list,
-        rank: task.rank,
         created: task.created,
         notes: task.notes,
         feedback: task.feedback,
@@ -74,16 +78,16 @@ TaskSchema.statics.duplicateRecurringTask = function(taskID, status, started, fi
         creator: task.creator,
         owner: task.owner,
         recurring: false,
-        kill: task.kill,
-        repeat: task.repeat,
         dueDate: task.dueDate,
         timeDue: task.timeDue,
         durationHours: task.durationHours,
         durationMinutes: task.durationMinutes,
-        recurringInterval: task.recurringInterval,
-        recurringDeathMultiplier:task.recurringDeathMultiplier,
-        recurringDeathNumber:task.recurringDeathNumber,
-        recurringMultiplier:task.recurringMultiplier
+        rdi:             task.rdi              ,
+        death:           task.death            ,
+        deathMultiplier: task.deathMultiplier   , 
+        rbi:             task.rbi             ,
+        birth:           task.birth            ,
+        birthMultiplier: task.birthMultiplier   ,
       })
       return Promise.all([newTask.save()])
       .then(([task]) => task);

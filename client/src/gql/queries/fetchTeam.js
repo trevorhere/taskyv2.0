@@ -1,21 +1,25 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export default gql`
-query Team($teamID:ID){
-    team(teamID:$teamID){
+  query Team($teamID: ID) {
+    team(teamID: $teamID) {
       id
       name
-      members{
+      members {
         id
         name
         position
         phoneNumber
+        lists {
+          id
+          name
+        }
       }
-    leader{
-      id
-      name
-      position
-    }
+      leader {
+        id
+        name
+        position
+      }
     }
   }
 `;

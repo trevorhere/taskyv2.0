@@ -4,7 +4,7 @@ import { graphql, Query } from "react-apollo";
 import query from "../gql/queries/fetchTask";
 import mutation from "../gql/mutations/RemoveTask";
 import Loading from "./Loading";
-import { Card, CardTitle, Button, Row, Col } from "react-materialize";
+import { Card, CardTitle, Button, Row, Col, Table } from "react-materialize";
 
 const style = {
   border: "2px solid grey",
@@ -40,22 +40,44 @@ class ViewTask extends Component {
         fetchPolicy="cache-and-network"
       >
         {({ loading, error, data }) => {
-          const { task } = data;
 
           if (loading) {
             return <Loading loading={loading} />;
           } else if (error) {
             return <div>Error: {error.message}</div>;
           }
+
+          const { task } = data;
+
+
           return (
-            <div className="container">
-              <div style={style} className="">
-                <h3>Task: {task.content}</h3>
-                Status: {task.status}
-                <br />
-                Priority: {task.priority}
-                <br />
-                Estimated Duration: {task.durationHours}Hr{" "}
+
+             <div className="container">
+        <h3 className="cardText">{task.content}</h3>
+        <hr style={{ borderColor: "#ED6E72" }} />
+        <Card className={`taskCard white-text`} title="">
+          <Row>
+            <Table className="white-text">
+              <thead>
+                <tr>
+                  <th data-field="id">Status</th>
+                  <th data-field="priority">Priority</th>
+                  <th data-field="notes">Notes</th>
+                  <th data-field="recurring">Recurring</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{task.status}</td>
+                  <td>{task.priority}</td>
+                  <td>{task.notes}</td>
+                  <td>{(task.recurring)? "Yes" : "No"}</td>
+                </tr>
+              </tbody>
+            </Table>
+        <hr style={{ borderColor: "#ED6E72" }} />
+
+ Estimated Duration: {task.durationHours}Hr{" "}
                 {task.durationMinutes}Min
                 <br />
                 Created: {task.created}
@@ -63,8 +85,7 @@ class ViewTask extends Component {
                 Started: {task.started}
                 <br />
                 Finished: {task.finished}
-                <br />
-                {task.recurring ? (
+                 {task.recurring ? (
                   <div>
                     Recurs every {task.recurringInterval}{" "}
                     {task.recurringMultiplier}
@@ -75,42 +96,39 @@ class ViewTask extends Component {
                 ) : (
                   <span />
                 )}
-                <br />
-                Notes: {task.notes}
-              </div>
-              <Button
-                floating
-                fab="horizontal"
-                icon="add"
-                className="red"
-                large
-                style={{ bottom: "45px", right: "24px" }}
-              >
-                <Button href="/dashboard/createlist" className="">
-                  List
-                </Button>
-                <Button href="/dashboard/createteam" className="">
-                  Team
-                </Button>
-              </Button>
-              <div style={{ marginTop: "10px" }}>
-                <a
-                  to={`/dashboard/list/${this.props.match.params.listID}`}
-                  style={{ margin: "10px" }}
-                  className="outline right"
-                  onClick={() => this.removeTask()}
-                >
-                  Remove Task
-                </a>
-                <Link
-                  to={`/dashboard/list/${this.props.match.params.listID}`}
-                  style={{ margin: "10px" }}
-                  className="outline right"
-                >
-                  Back
-                </Link>
-              </div>
-            </div>
+          </Row>
+        </Card>
+        <Button
+          className="backButton"
+          onClick={() => {
+            this.props.history.push(
+             `/dashboard/list/${this.props.match.params.listID}`
+            );
+          }}
+          large
+        >
+          Back
+        </Button>
+        <Button
+          floating
+          fab="horizontal"
+          icon="delete"
+          className="red"
+          large
+          style={{ bottom: "45px", right: "24px" }}
+        >
+           <Button
+          className="red"
+           onClick={() => this.removeTask()}
+        >
+          Remove Task
+        </Button>
+          
+        </Button>
+      </div>
+
+
+           
           );
         }}
       </Query>

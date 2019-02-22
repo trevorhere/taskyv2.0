@@ -1,61 +1,121 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { graphql } from 'react-apollo';
-import query from '../gql/queries/fetchUser';
-import Loading from './Loading';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { graphql } from "react-apollo";
+import query from "../gql/queries/fetchUser";
+import Loading from "./Loading";
+import { Card, Button, Row, Modal, Input, Col, Table } from "react-materialize";
 
 const style = {
-     border:'2px solid grey',
-     padding: '10px',
-     marginTop: '20px'
-}
+  border: "2px solid grey",
+  padding: "10px",
+  marginTop: "20px"
+};
 
-class ViewUser extends Component{
-
-  renderLists(lists){
-   return  lists.map(({id, name}) => {
-      return (
-        <li key={id}>{name}</li>
-      )
-    })
+class ViewUser extends Component {
+  constructor(props) {
+    super(props);
   }
 
-  render(){
+renderTasks(tasks){
+  return <div> </div>
+}
+
+  renderLists(lists) {
+    return lists.map(({ id, name, tasks }) => {
+        return (  
+             <Col className="taskCol" key={id} s={6} m={3} >
+          <Card className={`taskCard white-text`}  s={6} m={3} l={3} title="">
+             
+                <h4 className="section-title">{name}</h4>
+                  <Table className="white-text">
+              <thead>
+                <tr>
+                  <th data-field="id">Task</th>
+                  <th data-field="name">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tasks.map(({content, status}) => {
+                  return (
+                <tr>
+                  <td>{content}</td>
+                  <td>{status}</td>
+                </tr>
+                  )
+                })} 
+              </tbody>
+            </Table>
+             </Card>
+
+             </Col>
+        )
+    });
+  }
+
+  render() {
+    const { userID, loading, error } = this.props.data;
+    if (loading) {
+      return <Loading loading={loading} />;
+    }else if (error) {
+      return <div>Error: {error.message}</div>;
+    }
     console.log(this.props);
-    const { userID } = this.props.data;
-    if (!userID) { return (<Loading loading={userID}/>); }
 
     return (
       <div className="container">
-          <h3>User Profile:</h3>
-          Name: {userID.name}
-          <br/>
-          email: {userID.email}
-          <br/>
-          Position: {userID.position}
-          <br/>
+        <h3 className="cardText">{userID.name}</h3>
+        <hr style={{ borderColor: "#ED6E72" }} />
+        <Card className={`taskCard white-text`} title="">
+          <Row>
+            <Table className="white-text">
+              <thead>
+                <tr>
+                  <th data-field="id">Email</th>
+                  <th data-field="name">Position</th>
+                  <th data-field="price">Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{userID.email}</td>
+                  <td>{userID.position}</td>
+                  <td>{userID.phoneNumber}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Row>
+        </Card>
+        {userID.lists.length ? (
           <div>
-            {userID.lists.length ? <div>
-            <ul>
-              Lists:
-              {this.renderLists(userID.lists)}
-            </ul>
-            </div> : <div></div>}
+           <h3 className="cardText">Lists</h3>
+        <hr style={{ borderColor: "#ED6E72" }} />
+        <Row>
+          {this.renderLists(userID.lists)}
+        </Row>
           </div>
-          <div style={{marginTop: "10px"}}>
-          <Link
-          to={`/dashboard/team/${this.props.match.params.teamID}`}
-          style={{margin: "10px"}}
-          className=" btn-large red right">Back</Link>
-          </div>
-        </div>
-      );
+        ) : (
+          <div> </div>
+        )}
 
+        <div style={{ marginTop: "10px" }} />
+        <Button
+          className="backButton"
+          onClick={() => {
+            this.props.history.push(
+              `/dashboard/team/${this.props.match.params.teamID}`
+            );
+          }}
+          large
+        >
+          Back
+        </Button>
+      </div>
+    );
   }
 }
 
 export default graphql(query, {
-  options: (props) => { return { variables: { userID: props.match.params.userID}}},
+  options: props => {
+    return { variables: { userID: props.match.params.userID } };
+  }
 })(ViewUser);
-
-

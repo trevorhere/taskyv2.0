@@ -7,23 +7,20 @@ query Task($taskID:ID!){
     content
     status
     priority
-    rank
-    timeDue
-    dueDate
     durationHours
     durationMinutes
     notes
     feedback
     started
     finished
-    kill
-    repeat
     recurring
     created
-    recurringInterval
-recurringMultiplier
-recurringDeathNumber
-recurringDeathMultiplier
+    rdi
+    death
+    deathMultiplier
+      rbi
+    birth
+    birthMultiplier
 
   }
 }

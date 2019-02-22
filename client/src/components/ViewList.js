@@ -16,7 +16,9 @@ import {
   Row,
   Input,
   Table,
-  Modal
+  Modal,
+  Dropdown,
+  NavItem
 } from "react-materialize";
 import "../styles/App.css";
 
@@ -26,7 +28,15 @@ const task = {
   notes: "",
   durationHours: 0,
   durationMinutes: 0,
-  status: "pending"
+  status: "pending",
+  recurring: false,
+  rdi: 0,
+  death: 0,
+  deathMultiplier: 1,
+  rbi: 0,
+  birth: 0,
+  birthMultiplier: 1,
+
 };
 
 class ViewList extends Component {
@@ -66,21 +76,17 @@ class ViewList extends Component {
           status: task.status,
           creatorID: this.props.data.user.id,
           priority: Number(task.priority),
-          dueDate: this.state.dueDate,
-          timeDue: this.state.timeDue,
-          started: this.state.started,
-          finished: this.state.finished,
           durationHours: Number(task.durationHours),
           durationMinutes: Number(task.durationMinutes),
           notes: task.notes,
-          recurring: this.state.recurring,
-          kill: this.state.kill,
-          repeat: this.state.repeat,
+          recurring: task.recurring,
           created: moment().format("MM/DD/YY, HH:mm"),
-          recurringInterval: this.state.recurringInterval,
-          recurringDeathMultiplier: this.state.recurringMultiplier,
-          recurringDeathNumber: this.state.recurringDeathNumber,
-          recurringMultiplier: this.state.recurringMultiplier
+          rdi: (task.death * task.deathMultiplier),
+          death: task.death,
+          deathMultiplier: task.deathMultiplier,
+          rbi: (task.birth * task.birthMultiplier),
+          birth: task.birth,
+          birthMultiplier: task.birthMultiplier
         }
       })
       .then(
@@ -210,7 +216,6 @@ class ViewList extends Component {
             <tr key={i}>
               <td>{content}</td>
               <td>
-                {/* {status} */}
                 <Input
                   onChange={event => {
                     this.changeTaskStatus(
@@ -258,19 +263,13 @@ class ViewList extends Component {
     );
   }
 
-  handleChange(name, event) {
-    event.preventDefault();
-    this.setState({
-      name: event.target.value
-    });
-  }
-
   renderModal() {
     return (
       <div>
         <Row>
+            <h4 className="cardText">Create Task</h4>   
           <Input
-            s={12}
+            s={6}
             label="Task:"
             onChange={event => {
               task.content = event.target.value;
@@ -285,15 +284,15 @@ class ViewList extends Component {
             s={6}
             label="Priority"
             type="select"
-            defaultValue="leisure"
+            defaultValue="1"
           >
-            <option value="leisure">Not Pressing</option>
-            <option value="pressing">Pressing</option>
-            <option value="urgent">Urgent</option>
-            <option value="nuclear">Nuclear !!!</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
           </Input>
 
-          <Input
+          {/* <Input
             onChange={event => {
               task.status = event.target.value;
             }}
@@ -305,7 +304,7 @@ class ViewList extends Component {
             <option value="pending">Pending</option>
             <option value="underway">Underway</option>
             <option value="complete">Complete</option>
-          </Input>
+          </Input> */}
           <Input
             s={6}
             type="number"
@@ -328,28 +327,169 @@ class ViewList extends Component {
             onChange={event => (task.notes = event.target.value)}
             defaultValue={task.notes}
           />
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+
+            <Row>
+            <hr style={{ borderColor: "#ED6E72" }} />
+            <h4 className="cardText">Recurring Task Options</h4>
+      <br/>
+            <Input s={12} type='select' label="Recurring?" defaultValue='1'
+              onChange={(event)=> {
+                event.target.value === '1'
+                ? task.recurring = false
+                : task.recurring = true
+              }}
+            >
+              <option value='1'>No</option>
+              <option value='2'>Yes</option>
+          </Input>
+      <br/>
+      <br/>
+      <br/>
+      
+      <h6 className="cardText">Task should reoccur every:</h6>
+       <Input
+            s={2}
+            type="number"
+            onChange={event => {
+              task.birth = Number(event.target.value);
+              task.rbi = (task.birth * task.birthMultiplier)
+            }}
+            defaultValue={String(task.birth)}
+          />
+         <Input s={6} type='select'  defaultValue='1'
+           onChange={(event)=> {
+                task.birthMultiplier = Number(event.target.value)
+              task.rbi = (task.birth * task.birthMultiplier)
+
+              }}
+         >
+              <option value='1'>Minutes</option>
+              <option value='60'>Hours</option>
+              <option value='1488'>Days</option>
+              <option value='17856'>Months</option>
+          </Input>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+            <h6 className="cardText">Task should stop recurring in:</h6>   
+          <Input
+            s={2}
+            type="number"
+            onChange={event => {
+              task.death = Number(event.target.value);
+              task.rdi = (task.death * task.deathMultiplier);
+
+            }}
+            defaultValue={String(task.death)}
+          />
+         <Input s={6} type='select'  defaultValue='1'
+             onChange={(event)=> {
+                task.deathMultiplier = Number(event.target.value);
+                task.rdi = (task.death * task.deathMultiplier);
+              }}
+         >
+              <option value='1'>Minutes</option>
+              <option value='60'>Hours</option>
+              <option value='1488'>Days</option>
+              <option value='17856'>Months</option>
+          </Input>
+          <br/>
+           </Row>
+          <hr style={{ borderColor: "#ED6E72" }} />
         </Row>
       </div>
     );
   }
 
   changeTaskStatus(taskID, status, started, finished, recurring, refetch) {
-    if (recurring && status == "complete") {
-      this.props.ChangeTaskStatus({
-        variables: { taskID, status, started, finished }
-      });
-      this.props.DuplicateRecurringTask({
-        variables: { taskID, status: "complete", started, finished }
-      });
+    const { listID } = this.props.match.params;
+    const currentTime =  moment().format('MM/DD/YY, HH:mm');
+
+
+    if (recurring ) {
+     switch(status){
+        case "underway":
+            this.props
+            .ChangeTaskStatus({
+              variables: { taskID, status, started:currentTime, finished: "" },
+              refetchQueries: [{ query }]
+            })
+            .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+      
+        break;
+        case "complete":
+                this.props
+            .ChangeTaskStatus({
+              variables: { taskID, status, started,currentTime },
+              refetchQueries: [{ query }]
+            })
+            .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+
+          // this.props.DuplicateRecurringTask({
+          //   variables: { taskID, status: "complete", started, finished },
+          //    refetchQueries: [{ query }]
+          // }) .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+        break;
+        case "pending":
+              this.props
+            .ChangeTaskStatus({
+              variables: { taskID, status, started, finished },
+              refetchQueries: [{ query }]
+            })
+            .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+        break;
+        default:        
+            this.props
+          .ChangeTaskStatus({
+            variables: { taskID, status, started, finished },
+            refetchQueries: [{ query }]
+          })
+          .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+      }
+     
+     
     } else {
-      this.props.ChangeTaskStatus({
-        variables: { taskID, status, started, finished }
-      });
+      switch(status){
+            case "underway":
+            this.props
+            .ChangeTaskStatus({
+              variables: { taskID, status, started:currentTime, finished: "" },
+              refetchQueries: [{ query }]
+            })
+            .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+      
+        break;
+        case "complete":
+            this.props
+            .ChangeTaskStatus({
+              variables: { taskID, status, started, finished: currentTime },
+              refetchQueries: [{ query }]
+            })
+            .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+        break;
+        case "pending":
+              this.props
+            .ChangeTaskStatus({
+              variables: { taskID, status, started, finished },
+            })
+            .then(() => setTimeout((this.props.history.push(`/dashboard/list/${listID}`)), 1000));
+        break;
+        default:        
+            this.props
+          .ChangeTaskStatus({
+            variables: { taskID, status, started, finished },
+            refetchQueries: [{ query }]
+          })
+          .then(() => this.props.history.push(`/dashboard/list/${listID}`));
+      }
     }
-    setTimeout(refetch(), 250);
-    // this.props.history.push(
-    //   `/dashboard/list/${this.props.match.params.listID}`
-    // )
   }
 
   filteredTasks(list, filter) {
@@ -386,7 +526,7 @@ class ViewList extends Component {
     let now = moment().format("MM/DD/YY, HH:mm");
     let diff = Math.abs(new Date(now) - new Date(date));
     let minutes = Math.floor(diff / 1000 / 60);
-    return minutes;
+    return minutes + 1;
   }
 
   setRecurringFalse(taskID) {
@@ -396,16 +536,24 @@ class ViewList extends Component {
   }
 
   resetRecurringTasks(list) {
+    console.log('reseting tasks')
     if (list.tasks) {
-      list.tasks.map(task => {
-        if (task.recurring) {
-          if (task.kill < this.minutesSince(task.created)) {
-            this.setRecurringFalse(task.id);
+      list.tasks.map(item => {
+        if (item.recurring) {
+          if (item.rdi < this.minutesSince(item.created)) {
+            this.setRecurringFalse(item.id);
+            console.log('running 1')
           } else if (
-            task.repeat < this.minutesSince(task.finished) &&
-            task.status == "complete"
+            item.rbi < this.minutesSince(item.finished) &&
+            item.status == "complete"
           ) {
-            this.changeTaskStatus(task.id, "pending", "N/A", "N/A");
+            console.log('running 2', item.status)
+              this.props
+            .ChangeTaskStatus({
+              variables: { taskID: item.id, status: "pending", started: "N/A", finished: "N/A" },
+            })
+            // .then(() => setTimeout((this.props.history.push(`/dashboard/list/${listID}`)), 1000));
+            // this.changeTaskStatus(item.id, "pending", "N/A", "N/A");
           }
         }
       });
@@ -421,7 +569,7 @@ class ViewList extends Component {
   };
 
   renderTasks(tasks, taskStatus, refetch) {
-    if (taskStatus == "pending") {
+    if (taskStatus === "pending") {
       console.log(this.sortDuration(tasks));
       console.log(this.sortPriority(tasks));
     }
@@ -433,7 +581,7 @@ class ViewList extends Component {
             <h4 className="section-title">{taskStatus}</h4>
             <Row>
               <Col s={12} m={12} l={12}>
-                <Table>
+                <Table className="white-text">
                   <thead>
                     <tr>
                       <th data-field="task">Task</th>
@@ -467,13 +615,15 @@ class ViewList extends Component {
         fetchPolicy="cache-and-network"
       >
         {({ loading, error, data, refetch }) => {
-          const { list } = data;
-
+         
           if (loading) {
             return <Loading loading={loading} />;
           } else if (error) {
             return <div>Error: {error.message}</div>;
           }
+
+           const { list } = data;
+          console.log("list", list);
 
           this.resetRecurringTasks(list);
           const pendingTasks = this.filteredTasks(list, "pending");
@@ -484,9 +634,26 @@ class ViewList extends Component {
             <div className="container">
               <h3 className="cardText">{list.name}</h3>
               <hr style={{ borderColor: "#ED6E72" }} />
-              {this.renderTasks(underwayTasks, "underway", refetch)}
-              {this.renderTasks(pendingTasks, "pending", refetch)}
-              {this.renderTasks(completeTasks, "complete", refetch)}
+              {list.tasks.length ? (
+                <div>
+                  {this.renderTasks(underwayTasks, "underway", refetch)}
+                  {this.renderTasks(pendingTasks, "pending", refetch)}
+                  {this.renderTasks(completeTasks, "complete", refetch)}
+                </div>
+              ) : (
+                <div>
+                  <h4 className="cardText">No Tasks Yet</h4>
+                </div>
+              )}
+              <Button
+                className="backButton"
+                onClick={() => {
+                  this.props.history.push("/dashboard");
+                }}
+                large
+              >
+                Back
+              </Button>
 
               <Button
                 floating

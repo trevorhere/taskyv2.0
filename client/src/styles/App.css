@@ -167,5 +167,13 @@
 }
 
 .modal-footer {
-  background-color: #2a3335 !important ;
+  background-color: #2a3335 !important;
+}
+
+.backButton {
+  bottom: 20px;
+  left: 23px;
+  position: fixed;
+  margin-bottom: 0;
+  z-index: 998;
 }

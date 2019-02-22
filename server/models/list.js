@@ -25,23 +25,18 @@ ListSchema.statics.createTask = function(
       listID,
       status,
       creatorID,
-      rank,
       priority,
-      dueDate,
-      timeDue,
-      started,
-      finished,
       durationHours,
       durationMinutes,
       notes,
       recurring,
-      kill,
-      repeat,
       created,
-      recurringInterval,
-        recurringMultiplier,
-        recurringDeathNumber,
-        recurringDeathMultiplier
+          rdi,            
+    death ,
+    deathMultiplier,
+    rbi           ,
+    birth ,
+    birthMultiplier,
       ){
   const Task = mongoose.model('task');
     return this.findById(listID)
@@ -49,25 +44,22 @@ ListSchema.statics.createTask = function(
         const task = new Task({
           content,
           list,
-          status,
-          creatorID,
-          rank,
-          priority,
-          dueDate,
-          timeDue,
-          started,
-          finished,
-          durationHours,
-          durationMinutes,
-          notes,
-          recurring,
-          kill,
-          repeat,
-          created,
-          recurringInterval,
-          recurringMultiplier,
-          recurringDeathNumber,
-          recurringDeathMultiplier })
+         status,
+      creatorID,
+      priority,
+      durationHours,
+      durationMinutes,
+      notes,
+      recurring,
+      created,
+          rdi,            
+    death ,
+    deathMultiplier,
+    rbi           ,
+    birth ,
+    birthMultiplier, })
+
+    console.log('new task: ', task)
         list.tasks.push(task)
         return Promise.all([task.save(), list.save()])
           .then(([task, list]) => list);

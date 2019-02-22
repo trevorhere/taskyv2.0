@@ -17,7 +17,6 @@ const TaskType = new GraphQLObjectType({
     content: { type: GraphQLString },
     status: { type: GraphQLString },
     priority: {type: GraphQLInt},
-    rank: { type: GraphQLString },
     durationHours: { type: GraphQLInt },
     durationMinutes: { type: GraphQLInt },
     notes: { type: GraphQLString },
@@ -27,13 +26,15 @@ const TaskType = new GraphQLObjectType({
     started: {type: GraphQLString},
     finished: {type: GraphQLString},
     recurring: {type: GraphQLBoolean},
-    kill: { type: GraphQLInt },
-    repeat: { type: GraphQLInt },
     created:{type: GraphQLString},
-    recurringInterval: { type: GraphQLInt },
-    recurringMultiplier:{type: GraphQLString},
-    recurringDeathNumber:{ type: GraphQLInt },
-    recurringDeathMultiplier:{type: GraphQLString},
+    rdi: { type: GraphQLInt },
+    death: { type: GraphQLInt },
+    deathMultiplier: { type: GraphQLInt },
+    rbi: { type: GraphQLInt },
+    birth: { type: GraphQLInt },
+    birthMultiplier: { type: GraphQLInt },
+    
+
     creator: {
       type: require('./user_type'),
       resolve(parentValue){

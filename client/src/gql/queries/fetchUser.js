@@ -10,6 +10,11 @@ export default gql`
       lists{
         id
         name
+        tasks {
+          id
+          content
+          status
+        }
       }
     }
   }

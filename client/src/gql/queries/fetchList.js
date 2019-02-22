@@ -21,7 +21,6 @@ query List($listID:ID!){
         id
         content
         status
-        rank
         durationHours
         durationMinutes
         priority
@@ -30,9 +29,13 @@ query List($listID:ID!){
         started
         finished
         recurring
-        repeat
-        kill
         created
+        rbi
+        birth
+        birthMultiplier
+        rdi
+        death
+        deathMultiplier
         creator{
           id
           email
